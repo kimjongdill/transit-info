@@ -1,7 +1,7 @@
 import { useEffect, useState, React } from 'react';
 import { useParams } from 'react-router-dom';
 
-const URL = 'https://api.georgedill.net'
+const URL = 'https://www.georgedill.net/transit-api'
 
 const TransitTile = ({destination, time}) => {
     return (
@@ -38,7 +38,7 @@ const Transit = () => {
         const getInfo = async () => {
             
             try {
-                const rawResult = await fetch(request);
+                const rawResult = await fetch(request, {mode: 'same-origin'});
                 const json = await rawResult.json();
                 setResult(json);
             } catch {
