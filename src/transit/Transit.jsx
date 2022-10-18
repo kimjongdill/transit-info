@@ -1,4 +1,7 @@
 import { useEffect, useState, React } from 'react';
+import { useParams } from 'react-router-dom';
+
+const URL = 'https://api.georgedill.net'
 
 const TransitTile = ({destination, time}) => {
     return (
@@ -21,6 +24,9 @@ const Transit = () => {
     const [error, setError] = useState(false);
     const [loadCounter, setLoadCounter] = useState(0);
 
+    const { key } = useParams();
+    const request = `${URL}?key=${key}`;
+
     const busses = result?.bus ?? [];
     const trains = result?.train ?? [];
 
@@ -30,9 +36,9 @@ const Transit = () => {
         setResult();
         
         const getInfo = async () => {
+            
             try {
-                console.log(`${loadCounter} transit loading...`);
-                const rawResult = await fetch('/transitinfo');
+                const rawResult = await fetch(request);
                 const json = await rawResult.json();
                 setResult(json);
             } catch {
@@ -43,7 +49,7 @@ const Transit = () => {
             
         }
         getInfo();
-    }, [loadCounter]);
+    }, [loadCounter, request]);
 
     return (
         <>
