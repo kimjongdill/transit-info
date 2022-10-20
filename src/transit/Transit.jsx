@@ -1,13 +1,20 @@
 import { useEffect, useState, React } from 'react';
 import { useParams } from 'react-router-dom';
+import { SlGhost } from 'react-icons/sl';
 
-const URL = 'https://www.georgedill.net/transit-api'
+const URL = 'https://api.georgedill.net';
+// const URL = 'http://0.0.0.0:8787'
 
-const TransitTile = ({destination, time}) => {
+const TransitTile = ({destination, time, isGhost}) => {
     return (
         <div style={{backgroundColor: 'blue', width: '80%', padding: '2%'}}>
-            <div style={{float: 'left', textAlign: 'left'}}>{destination}</div>
-            <div style={{float: 'right', textAlign: 'right'}}>{time}</div>
+            <div style={{float: 'left', textAlign: 'left'}}>
+                {destination}
+            </div>
+            <div style={{float: 'right', textAlign: 'right'}}>
+                {`${time} `}
+                {isGhost && <SlGhost />}
+            </div>
         </div>
     )
 }
@@ -38,7 +45,7 @@ const Transit = () => {
         const getInfo = async () => {
             
             try {
-                const rawResult = await fetch(request, {mode: 'same-origin'});
+                const rawResult = await fetch(request);
                 const json = await rawResult.json();
                 setResult(json);
             } catch {
@@ -68,7 +75,7 @@ const Transit = () => {
                 }
                 <h2>Trains</h2>
                 {
-                    trains.map( (train) => <TransitTile destination={train.destination} time={train.predictedTime} />)
+                    trains.map( (train) => <TransitTile destination={train.destination} time={train.predictedTime} isGhost={train.isGhost} />)
                 }
                 <br />
             </ConditionallyRender>
