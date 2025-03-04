@@ -69,7 +69,7 @@ const Transit = () => {
                 Error, try again. 
             </ConditionallyRender>
             <ConditionallyRender shouldRender={!loading && !error}>
-                <h2>Busses</h2>
+                <h2>Buses</h2>
                 {
                     busses.map( (bus) => <TransitTile destination={bus.destination} time={bus.predictedTime} />)
                 }
